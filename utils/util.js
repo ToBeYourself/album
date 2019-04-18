@@ -73,4 +73,5 @@ module.exports = {
   wxRequest: wxRequest,
   wxLogin:wxLogin,
   getBannerUrl: domainUrl + 'getBannerUrl',
+
 }

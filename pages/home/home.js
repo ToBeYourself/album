@@ -3,6 +3,7 @@ var Slider = require('../../template/slider/slider.js');
 var util = require("../../utils/util.js");
 var scale=require('../../utils/scale.js')
 var app=getApp();
+
 // pages/home/home.js
 Page({
 
@@ -26,40 +27,9 @@ imageLoad:function(e){
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var slider = new Slider(this);
-    var _openId=app.globalData.openId;
-    util.wxRequest({
-      url: util.getBannerUrl,
-      method: "POST",
-      data: { type: '-1', openId: _openId },
-      header: { 'content-type': 'application/x-www-form-urlencoded' }
-    }).then(res=>{
-      /**    wx.showToast({
-                      title: '正在加载...',
-                      icon: 'loading',
-                      mask: true,
-                      duration: 10000
-          
-                    })*/
-      var _typeList = [];
-      var _indexList = [];
-      for (var a in res.typeList) {
-
-        _typeList.push(res.typeList[a].type_name);
-        _indexList.push(res.typeList[a].type);
-      }
-
-      this.setData({
-        bannerUrl: res.urlList,
-        typeList: _typeList,
-        indexList: _indexList
-
-      })
+   
     
-      app.globalData.urlList = res;
-      slider.initData(this.data.bannerUrl);
-    })
-      
+   
   },
   cateClick:function(e){
     
@@ -71,8 +41,10 @@ imageLoad:function(e){
       data: _data,
       header: { 'content-type': 'application/x-www-form-urlencoded' }
     }).then(res=>{
+      
       this.setData({
-        prdList: res.data
+        prdList: res,
+        currentIndex: e.currentTarget.dataset.index
       })
     })
   },
@@ -87,6 +59,35 @@ imageLoad:function(e){
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var slider = new Slider(this);
+    var openId=app.globalData.openId;
+    if (openId) {
+      util.wxRequest({
+        url: util.getBannerUrl,
+        method: "POST",
+        data: { type: '-1', openId: openId },
+        header: { 'content-type': 'application/x-www-form-urlencoded' }
+      }).then(res => {
+
+        var _typeList = [];
+        var _indexList = [];
+        for (var a in res.typeList) {
+
+          _typeList.push(res.typeList[a].type_name);
+          _indexList.push(res.typeList[a].type);
+        }
+
+        this.setData({
+          typeList:_typeList,
+          indexList:_indexList,
+          bannerUrl: res.urlList
+        })
+        
+        slider.initData(res.urlList);
+      })
+    }
+
+  
    
   },
 
@@ -108,7 +109,33 @@ imageLoad:function(e){
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    var slider = new Slider(this);
+    var openId = app.globalData.openId;
+    if (openId) {
+      util.wxRequest({
+        url: util.getBannerUrl,
+        method: "POST",
+        data: { type: '-1', openId: openId },
+        header: { 'content-type': 'application/x-www-form-urlencoded' }
+      }).then(res => {
 
+        var _typeList = [];
+        var _indexList = [];
+        for (var a in res.typeList) {
+
+          _typeList.push(res.typeList[a].type_name);
+          _indexList.push(res.typeList[a].type);
+        }
+
+        this.setData({
+          typeList: _typeList,
+          indexList: _indexList,
+          bannerUrl: res.urlList
+        })
+
+        slider.initData(res.urlList);
+      })
+    }
   },
 
   /**

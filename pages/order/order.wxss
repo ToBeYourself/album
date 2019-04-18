@@ -14,6 +14,9 @@ background-color: #b3d4db;
 .orderlist{
    background-color: #b3d4db;
 }
+.order-list1{
+  border:20rpx;
+}
 .butt{
   width: 100%;
   height:50px;
