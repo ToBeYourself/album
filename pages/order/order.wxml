@@ -1,0 +1,25 @@
+
+<view class="orderlist">
+    
+      <view class="list-header" data-reset-page="{{item.page}}" data-order-id="{{item.order_id}}" bindtap="goDetail">
+      <span class="butt">我的标签(点击上传)</span>
+                <text class="store-name">{{item.store_name}}</text>
+                <text class="order-time">{{item.add_time}}</text>
+    
+      <view class="order-list1" wx:for="{{typeList}}"  >
+        <view class="node" bindtap="chooseImage" data-index="{{item.type}}">{{item.type_name}}</view>
+     
+       </view>
+        <view class="node" bindtap="addTag">新增标签</view>
+      </view>
+    
+</view>
+
+
+<view class="mask" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+
+<view class="modalDlg" wx:if="{{showModal}}">
+    <input placeholder='请输入新增的标签名。。' auto-focus bindinput='tagInput'></input>
+    <button bindtap="addTagCfm">确定</button>
+    <button bindtap="addTagCancel">取消</button>
+</view>

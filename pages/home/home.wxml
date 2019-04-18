@@ -1,0 +1,16 @@
+<import src="../../template/slider/slider.wxml"/>
+<view class="slider-container">
+    <template is="slider" data="{{slider}}"/>
+</view>
+
+<!-- 商品(分类导航|商品列表) -->
+<view class="com-product" >
+  <scroll-view  scroll-x="{{true}}" scroll-left="{{scrollLeft}}"  class="scroll-bar" >
+            <view style="width: {{typeList.length * 168}}rpx">
+                <view wx:for="{{typeList}}" wx:for-item="cate" class="cate-item {{indexList[index] == currentIndex ? 'active' : ''}}" data-id="{{cate.nav_id}}" data-index="{{indexList[index]}}" bindtap="cateClick">{{cate}}</view>
+            </view>
+        </scroll-view>
+  <view wx:for ="{{prdList}}" wx:for-item="prd">
+      <image src="https://www.tangyc.xyz:443/{{prd.prd_url}}"   bindload='imageLoad' width="{{imageWidth}}" height="{{imageHeight}}"></image>
+  </view>
+</view>
